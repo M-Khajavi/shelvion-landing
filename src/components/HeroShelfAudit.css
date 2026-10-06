@@ -1,0 +1,331 @@
+/* =========================================================
+   SHELVION HERO SHELF AUDIT ANIMATION
+   Page layout is controlled by src/styles.css.
+   This file controls only the audit overlays and animation.
+   ========================================================= */
+
+.hero-audit-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0b2437;
+}
+
+.hero-audit-img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.hero-audit-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.42);
+  pointer-events: none;
+}
+
+.hero-audit-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  clip-path: inset(
+    var(--spot-y)
+    var(--spot-r)
+    var(--spot-b)
+    var(--spot-x)
+  );
+}
+
+.hero-audit-spotlight img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: brightness(1.03);
+}
+
+.hero-audit-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: -3px;
+  z-index: 9;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--brand-color) 18%,
+    var(--brand-color) 82%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 14px var(--brand-color),
+    0 0 30px rgba(78, 202, 206, 0.45);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-audit-frame.scanning .hero-audit-scan {
+  animation: heroAuditScan 1.9s ease-in-out forwards;
+  opacity: 1;
+}
+
+@keyframes heroAuditScan {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.hero-audit-status {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 10;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: rgba(20, 25, 30, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.48rem 0.7rem;
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.hero-audit-status::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand-color);
+  margin-right: 0.45rem;
+  box-shadow: 0 0 8px var(--brand-color);
+}
+
+.hero-audit-box {
+  position: absolute;
+  z-index: 7;
+  border: 1px solid var(--brand-color);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 0 18px var(--brand-color);
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    left 0.35s ease,
+    top 0.35s ease,
+    width 0.35s ease,
+    height 0.35s ease,
+    opacity 0.25s ease;
+}
+
+.hero-audit-box.active {
+  opacity: 1;
+}
+
+.hero-audit-box::before,
+.hero-audit-box::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--brand-color);
+  border-style: solid;
+  filter: drop-shadow(0 0 6px var(--brand-color));
+}
+
+.hero-audit-box::before {
+  left: -2px;
+  top: -2px;
+  border-width: 2px 0 0 2px;
+}
+
+.hero-audit-box::after {
+  right: -2px;
+  bottom: -2px;
+  border-width: 0 2px 2px 0;
+}
+
+.hero-audit-box .corner-tr,
+.hero-audit-box .corner-bl {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--brand-color);
+  border-style: solid;
+}
+
+.hero-audit-box .corner-tr {
+  right: -2px;
+  top: -2px;
+  border-width: 2px 2px 0 0;
+}
+
+.hero-audit-box .corner-bl {
+  left: -2px;
+  bottom: -2px;
+  border-width: 0 0 2px 2px;
+}
+
+.hero-audit-brand-card,
+.hero-audit-product-card {
+  position: absolute;
+  z-index: 11;
+  background: rgba(16, 20, 24, 0.88);
+  border: 1px solid var(--brand-color);
+  border-radius: 4px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  font-family: 'IBM Plex Mono', monospace;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  pointer-events: none;
+}
+
+.hero-audit-brand-card.show,
+.hero-audit-product-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-audit-brand-card {
+  top: 18%;
+  right: 2.5%;
+  min-width: 170px;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.61rem;
+  line-height: 1.65;
+}
+
+.hero-audit-product-card {
+  min-width: 190px;
+  max-width: 250px;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.58rem;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.hero-audit-card-label {
+  color: rgba(255, 255, 255, 0.46);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.hero-audit-card-value {
+  white-space: nowrap;
+}
+
+.hero-audit-product-marker {
+  position: absolute;
+  z-index: 10;
+  border: 1px solid var(--brand-color);
+  border-radius: 2px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease;
+  box-shadow: 0 0 12px var(--brand-color);
+  pointer-events: none;
+}
+
+.hero-audit-product-marker.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hero-audit-product-marker::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid var(--brand-color);
+  border-left: 2px solid var(--brand-color);
+}
+
+@media (max-width: 800px) {
+  .hero-audit-status {
+    font-size: 0.5rem;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .hero-audit-brand-card {
+    right: 2%;
+    top: 10%;
+    min-width: 155px;
+    font-size: 0.54rem;
+  }
+
+  .hero-audit-product-card {
+    min-width: 160px;
+    max-width: 200px;
+    font-size: 0.51rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-audit-status {
+    top: 10px;
+    left: 10px;
+    font-size: 0.5rem;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .hero-audit-brand-card {
+    top: auto;
+    right: 2%;
+    bottom: 2%;
+    min-width: 145px;
+    padding: 0.55rem;
+    font-size: 0.49rem;
+  }
+
+  .hero-audit-product-card {
+    max-width: 155px;
+    min-width: 130px;
+    padding: 0.55rem;
+    font-size: 0.47rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-audit-scan {
+    animation: none !important;
+  }
+
+  .hero-audit-frame.scanning .hero-audit-scan {
+    display: none;
+  }
+}
